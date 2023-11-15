@@ -1,0 +1,14 @@
+/*
+ * run7seg.h
+ *
+ *  Created on: Nov 9, 2023
+ *      Author: M S I
+ */
+
+#ifndef INC_RUN7SEG_H_
+#define INC_RUN7SEG_H_
+
+void led7seg_store_buffer(int time, int index);
+void SetCounterBuffer(void);
+
+#endif /* INC_RUN7SEG_H_ */

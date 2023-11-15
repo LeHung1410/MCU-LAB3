@@ -1,0 +1,83 @@
+/*
+ * run7seg.c
+ *
+ *  Created on: Nov 9, 2023
+ *      Author: M S I
+ */
+
+#include "run7seg.h"
+#include "display7seg.h"
+
+uint8_t counterRED1, counterYELLOW1, counterGREEN1, counterRED2, counterYELLOW2, counterGREEN2;
+
+
+
+void SetCounterBuffer(void){
+	counterYELLOW1 = bufferTimerforLED[YELLOW];
+	counterGREEN1  = bufferTimerforLED[GREEN];
+	counterRED2    = bufferTimerforLED[RED];
+	counterYELLOW2 = bufferTimerforLED[YELLOW];
+	counterGREEN2  = bufferTimerforLED[GREEN];
+}
+
+void Led1Run(void){
+	if(counterRED1 > 0){
+		updateclockbuffer1(counterRED1);
+		HAL_GPIO_WritePin(red1_GPIO_Port,red1_Pin,RESET);
+		HAL_GPIO_WritePin(yellow1_GPIO_Port,yellow1_Pin,SET);
+		HAL_GPIO_WritePin(green1_GPIO_Port,green1_Pin,SET);
+		counterRED1--;
+	}
+	else if (counterGREEN1 > 0){
+		updateclockbuffer1(counterGREEN1);
+		HAL_GPIO_WritePin(red1_GPIO_Port,red1_Pin,SET);
+		HAL_GPIO_WritePin(yellow1_GPIO_Port,yellow1_Pin,SET);
+		HAL_GPIO_WritePin(green1_GPIO_Port,green1_Pin,RESET);
+		counterYELLOW1--;
+	}
+	else if (counterYELLOW1 > 0){
+		updateclockbuffer1(counterYELLOW1);
+		HAL_GPIO_WritePin(red1_GPIO_Port,red1_Pin,SET);
+		HAL_GPIO_WritePin(yellow1_GPIO_Port,yellow1_Pin,RESET);
+		HAL_GPIO_WritePin(green1_GPIO_Port,green1_Pin,SET);
+		counterYELLOW1--;
+	}
+	if(counterRED1 == 0){
+		counterRED1 = bufferTimerforLED[RED];
+		counterYELLOW1 = bufferTimerforLED[YELLOW];
+		counterGREEN1  = bufferTimerforLED[GREEN];
+	}
+}
+
+void Led2Run(void){
+	if(counterGREEN2 > 0){
+		updateclockbuffer2(counterGREEN2);
+		HAL_GPIO_WritePin(red2_GPIO_Port,red2_Pin,SET);
+		HAL_GPIO_WritePin(yellow2_GPIO_Port,yellow2_Pin,SET);
+		HAL_GPIO_WritePin(green2_GPIO_Port,green2_Pin,RESET);
+		counterGREEN2--;
+	}
+	if(counterYELLOW2 > 0){
+		updateclockbuffer2(counterYELLOW2);
+		HAL_GPIO_WritePin(red2_GPIO_Port,red2_Pin,SET);
+		HAL_GPIO_WritePin(yellow2_GPIO_Port,yellow2_Pin,RESET);
+		HAL_GPIO_WritePin(green2_GPIO_Port,green2_Pin,SET);
+		counterYELLOW2--;
+	}
+	if(counterRED2 > 0){
+		updateclockbuffer2(counterRED2);
+		HAL_GPIO_WritePin(red2_GPIO_Port,red2_Pin,RESET);
+		HAL_GPIO_WritePin(yellow2_GPIO_Port,yellow2_Pin,SET);
+		HAL_GPIO_WritePin(green2_GPIO_Port,green2_Pin,SET);
+		counterRED2--;
+	}
+	if(counterRED2 == 0){
+		counterRED2 = bufferTimerforLED[RED];
+		counterYELLOW2 = bufferTimerforLED[YELLOW];
+		counterGREEN2  = bufferTimerforLED[GREEN];
+	}
+}
+void LED_Run(void){
+	Led1Run();
+	Led2Run();
+}

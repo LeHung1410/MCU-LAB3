@@ -1,0 +1,84 @@
+/*
+ * button.c
+ *
+ *  Created on: Oct 15, 2023
+ *      Author: M S I
+ */
+
+#include "button.h"
+
+int KeyReg0 = NORMAL_STATE;
+int KeyReg1 = NORMAL_STATE;
+int KeyReg2 = NORMAL_STATE; //trạng thái ổn định nút 1
+
+int KeyReg3 = NORMAL_STATE;
+int KeyReg4 = NORMAL_STATE; // trạng thái ổn định nút 2
+
+int TimeOutForKeyPress = 200;
+
+int button1_flag = 0;
+int button2_flag = 0;
+
+int isButtonPressed(){
+	if(button1_flag == 1){
+		button1_flag = 0;
+		return 1;
+	}
+	if(button2_flag == 1){
+		button2_flag = 0;
+		return 1;
+	}
+	return 0;
+}
+
+void subKey1Process(){
+	button1_flag = 1;
+}
+void subKey2Process(){
+	button2_flag = 1;
+}
+
+void getKeyInput(){
+  KeyReg0 = KeyReg1;
+  KeyReg1 = KeyReg2;
+  KeyReg2 = HAL_GPIO_ReadPin(button1_GPIO_Port, button1_Pin);
+  KeyReg4 = HAL_GPIO_ReadPin(button2_GPIO_Port, button2_Pin);
+  if ((KeyReg0 == KeyReg1) && (KeyReg1 == KeyReg2)){
+    if (KeyReg3 != KeyReg2){
+    	KeyReg3 = KeyReg2;
+    	if (KeyReg2 == PRESSED_STATE) {
+    		subKey1Process();
+    		TimeOutForKeyPress = 200;
+    	}
+    }
+    	else {
+    		TimeOutForKeyPress--;
+    		if(TimeOutForKeyPress == 0){
+    			if (KeyReg2 == PRESSED_STATE){
+    				subKey1Process();
+    				TimeOutForKeyPress = 200;
+    			}
+    	 }
+    }
+  }
+  if ((KeyReg0 == KeyReg1) && (KeyReg1 == KeyReg4)){
+      if (KeyReg3 != KeyReg4){
+      	KeyReg3 = KeyReg4;
+      	if (KeyReg4 == PRESSED_STATE) {
+      		subKey2Process();
+      		TimeOutForKeyPress = 200;
+      	}
+      }
+      	else {
+      		TimeOutForKeyPress--;
+      		if(TimeOutForKeyPress == 0){
+      			if (KeyReg4 == PRESSED_STATE){
+      				subKey2Process();
+      				TimeOutForKeyPress = 200;
+      			}
+      		}
+      	}
+  }
+}
+
+

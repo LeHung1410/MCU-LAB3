@@ -1,0 +1,16 @@
+/*
+ * global.c
+ *
+ *  Created on: Nov 1, 2023
+ *      Author: Hiepm
+ */
+
+
+#include "global.h"
+
+int mode = 1; // set initial mode
+
+int value_set = 0; // set initial value to modify in mode 2, 3, 4
+int status = 1;// set initial status for led 7 seg
+int light = 5, counter = 3;// set counter for mode 1
+int TICK = 10; // set timer duration

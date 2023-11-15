@@ -1,0 +1,25 @@
+/*
+ * run7seg.c
+ *
+ *  Created on: Nov 9, 2023
+ *      Author: M S I
+ */
+
+#include "run7seg.h"
+#include "display7seg.h"
+
+uint8_t counterRED1, counterYELLOW1, counterGREEN1, counterRED2, counterYELLOW2, counterGREEN2;
+uint8_t bufferTimerforLED [NumberofLed];
+
+void led7seg_store_buffer(int time, int index){
+	bufferTimerforLED[index] = time;
+}
+
+void SetCounterBuffer(void){
+	counterRED1    = bufferTimerforLED[RED];
+	counterYELLOW1 = bufferTimerforLED[YELLOW];
+	counterGREEN1  = bufferTimerforLED[GREEN];
+	counterRED2    = bufferTimerforLED[RED];
+	counterYELLOW2 = bufferTimerforLED[YELLOW];
+	counterGREEN2  = bufferTimerforLED[GREEN];
+}

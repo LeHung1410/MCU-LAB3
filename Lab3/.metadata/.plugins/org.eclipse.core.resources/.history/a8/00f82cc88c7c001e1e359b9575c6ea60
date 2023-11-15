@@ -1,0 +1,22 @@
+/*
+ * display7seg.h
+ *
+ *  Created on: Nov 3, 2023
+ *      Author: M S I
+ */
+
+#ifndef INC_DISPLAY7SEG_H_
+#define INC_DISPLAY7SEG_H_
+
+#include "global.h"
+
+void display7SEG(int num);
+void update7SEG(int index);
+void updateclockbuffer(int time);
+
+extern int led_buffer [4];
+extern int index_led;
+extern int time1;
+extern int time2;
+
+#endif /* INC_DISPLAY7SEG_H_ */
